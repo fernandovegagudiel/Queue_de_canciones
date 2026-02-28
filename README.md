@@ -3,7 +3,7 @@
 ### Cómo compilar la librería
 Para compilar la librería me ubico en la carpeta raíz del proyecto (donde está el `pom.xml`) y ejecuto:
 bash
-mvn clean install```.
+mvn clean install
 
 ### Cómo compilar el handler
 El handler es el módulo que utiliza la librería. Para compilarlomvn:
