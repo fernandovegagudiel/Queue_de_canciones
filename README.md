@@ -1,10 +1,9 @@
 # Queue_de_canciones
 # Proyecto: Cola Genérica con Prioridad y Simulación
-
-## Cómo compilar la librería
+### Cómo compilar la librería
 Para compilar la librería me ubico en la carpeta raíz del proyecto (donde está el `pom.xml`) y ejecuto:
-```bash
-mvn clean install
+bash
+mvn clean install```.
 
 ### Cómo compilar el handler
 El handler es el módulo que utiliza la librería. Para compilarlomvn:
