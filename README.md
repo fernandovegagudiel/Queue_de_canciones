@@ -5,9 +5,9 @@
 1. Abrir una terminal.
 2. Ubicarse en la raíz del proyecto `queue-library` (donde se encuentra el `pom.xml`).
 
-```bash
+
 mvn clean install
-```
+
 
 Este comando:
 - Limpia compilaciones anteriores.
@@ -20,9 +20,9 @@ Este comando:
 2. Seleccionar Run As → Maven Build.
 3. En Goals escribir:
 
-```
+
 clean install
-```
+
 
 4. Ejecutar.
 
@@ -31,9 +31,9 @@ clean install
 
 Al ejecutar:
 
-```bash
+
 mvn clean install
-```
+
 
 La librería:
 - Genera el archivo `.jar`
@@ -42,13 +42,13 @@ La librería:
 
 Para usarla en otro proyecto, agregar en el `pom.xml`:
 
-```xml
+
 <dependency>
     <groupId>umg.edu.gt</groupId>
     <artifactId>queue-library</artifactId>
     <version>1.0.0</version>
 </dependency>
-```
+
 
 
 ## 3️ Cómo compilar el handler
@@ -61,9 +61,9 @@ Este proyecto tiene configurada la dependencia hacia `queue-library` en su `pom.
 
 Ubicarse en la carpeta raíz del `handler`:
 
-```bash
+
 mvn clean package
-```
+
 
 Esto genera el archivo ejecutable dentro de la carpeta `target/`.
 
@@ -73,18 +73,18 @@ Esto genera el archivo ejecutable dentro de la carpeta `target/`.
 2. Run As → Maven Build
 3. En Goals escribir:
 
-```
+
 clean package
-```
+
 
 
 ## 4️ Cómo ejecutar desde consola
 
 Para ejecutar el handler desde consola:
 
-```bash
+
 java -jar target/handler-1.0.0.jar
-```
+
 
 Este comando inicia la ejecución del sistema que simula la cola de canciones con prioridad.
 
@@ -134,20 +134,20 @@ La prioridad se maneja separando las canciones según su nivel.
 
 Se pueden utilizar dos colas:
 
-```java
+
 private QueueLinked<Song> highPriority;
 private QueueLinked<Song> normalPriority;
-```
+
 
 Al agregar una canción:
 
-```java
+
 if (song.getPriority() == 1) {
     highPriority.enqueue(song);
 } else {
     normalPriority.enqueue(song);
 }
-```
+
 
 Durante la ejecución:
 1. Se procesan primero las canciones de alta prioridad.
