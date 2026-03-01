@@ -1,168 +1,154 @@
+# Proyecto: Cola Genérica con Prioridad y Simulación
+
+Este proyecto consiste en una cola genérica hecha manualmente en Java y luego una simulación donde se usan canciones con prioridad.
+
+El proyecto está dividido en dos partes: una librería donde está la estructura de datos y otro módulo que la utiliza para hacer la simulación.
+
+---
+
 ## 1️ Cómo compilar la librería
 
-### 🔹 Desde consola
+### Desde consola
 
-1. Abrir una terminal.
-2. Ubicarse en la raíz del proyecto `queue-library` (donde se encuentra el `pom.xml`).
+Primero hay que ubicarse en la carpeta `queue-library`, donde está el archivo `pom.xml`.
 
+Luego ejecutar:
 
+```bash
 mvn clean install
+```
 
+Este comando limpia lo anterior, compila el proyecto y deja la librería instalada en el repositorio local de Maven.
 
-Este comando:
-- Limpia compilaciones anteriores.
-- Compila el proyecto.
-- Instala la librería en el repositorio local de Maven.
+### Desde Eclipse
 
-### 🔹 Desde Eclipse
+- Clic derecho al proyecto `queue-library`
+- Run As → Maven Build
+- En Goals escribir:
 
-1. Clic derecho sobre el proyecto `queue-library`.
-2. Seleccionar Run As → Maven Build.
-3. En Goals escribir:
-
-
+```
 clean install
+```
 
+- Ejecutar
 
-4. Ejecutar.
+---
 
+## 2️ Cómo usar la librería en otro proyecto
 
-## 2️ Cómo instalar en local
+Después de hacer `mvn clean install`, la librería ya queda disponible en el repositorio local (.m2).
 
-Al ejecutar:
+Si se quiere usar en otro proyecto Maven, solo se agrega esta dependencia en el `pom.xml`:
 
-
-mvn clean install
-
-
-La librería:
-- Genera el archivo `.jar`
-- Se instala en el repositorio local (`.m2`)
-- Puede ser utilizada como dependencia en otros proyectos Maven
-
-Para usarla en otro proyecto, agregar en el `pom.xml`:
-
-
+```xml
 <dependency>
     <groupId>umg.edu.gt</groupId>
     <artifactId>queue-library</artifactId>
     <version>1.0.0</version>
 </dependency>
+```
 
-
+---
 
 ## 3️ Cómo compilar el handler
 
-El proyecto `handler` es el módulo que utiliza la librería para ejecutar la simulación de la cola de canciones.
+El proyecto `handler` es el que usa la librería para simular la cola de canciones.
 
-Este proyecto tiene configurada la dependencia hacia `queue-library` en su `pom.xml`.
+Desde la carpeta del handler ejecutar:
 
-### 🔹 Desde consola
-
-Ubicarse en la carpeta raíz del `handler`:
-
-
+```bash
 mvn clean package
+```
 
+Esto genera el `.jar` dentro de la carpeta `target`.
 
-Esto genera el archivo ejecutable dentro de la carpeta `target/`.
+Desde Eclipse es parecido:
 
-### 🔹 Desde Eclipse
+- Clic derecho al proyecto `handler`
+- Run As → Maven Build
+- En Goals escribir:
 
-1. Clic derecho sobre el proyecto `handler`.
-2. Run As → Maven Build
-3. En Goals escribir:
-
-
+```
 clean package
+```
 
+---
 
+## 4️ Cómo ejecutar
 
-## 4️ Cómo ejecutar desde consola
+Después de compilar, se puede ejecutar desde consola con:
 
-Para ejecutar el handler desde consola:
-
-
+```bash
 java -jar target/handler-1.0.0.jar
+```
 
+Eso inicia la simulación de la cola de canciones.
 
-Este comando inicia la ejecución del sistema que simula la cola de canciones con prioridad.
+---
 
+## 5️ Cómo está organizado el proyecto
 
-## 5️ Explicación del diseño
+El proyecto está separado en dos módulos:
 
-El sistema fue dividido en dos módulos Maven independientes:
+### queue-library
 
-### Proyecto `queue-library`
+Aquí hice la estructura de datos manual:
 
-Contiene la implementación manual de la estructura de datos:
 - `QueueLinked<T>`
 - `Node<T>`
 
-Este módulo funciona como una librería reutilizable.
+La cola funciona con referencias `head` y `tail`, y una variable `size` para saber cuántos elementos hay.
 
-Se utilizan:
-- Referencias privadas `head` y `tail` para controlar la cola.
-- Una variable `size` para llevar el control del número de elementos.
-- Encapsulamiento para exponer únicamente los métodos necesarios.
+Esta parte no tiene nada que ver con canciones, solo es la estructura como tal.
 
-### Proyecto `handler`
+### handler
 
-Contiene la lógica que utiliza la estructura:
-- Gestión de canciones
-- Uso de prioridad
-- Clase principal que ejecuta la simulación
+Aquí ya se usan canciones y se aplica la prioridad.
 
-Se aplicó separación de responsabilidades:
-- La estructura de datos no contiene lógica de negocio.
-- El handler no implementa estructuras internas.
-- La clase principal únicamente inicia el sistema.
+Este módulo solo usa la cola, no implementa la estructura desde cero.
 
+Separé las cosas así para que la estructura se pueda reutilizar en otros proyectos si se quiere.
 
-## 6️ Decisiones técnicas
+---
 
-- Se utilizó una estructura enlazada manual en lugar de un arreglo dinámico.
-- Se implementó el principio FIFO (First In, First Out).
-- Se agregó soporte para prioridad en la gestión de canciones.
-- Se mantuvo el proyecto modular separando librería y ejecución.
-- Se utilizó Maven para la gestión de dependencias y empaquetado.
+## 6️ Decisiones que tomé
 
+- Usé una lista enlazada en vez de un arreglo para no estar redimensionando.
+- La cola funciona con el principio FIFO (First In, First Out), o sea que lo primero que entra es lo primero que sale.
+- Agregué prioridad para que algunas canciones se reproduzcan antes que otras.
+- Usé Maven para organizar dependencias y poder generar el .jar fácilmente.
 
-## 7️ Cómo implementaste la prioridad
+---
 
-La prioridad se maneja separando las canciones según su nivel.
+## 7️ Cómo funciona la prioridad
 
-Se pueden utilizar dos colas:
+La prioridad la manejé separando las canciones en dos colas.
 
+Por ejemplo:
 
+```java
 private QueueLinked<Song> highPriority;
 private QueueLinked<Song> normalPriority;
+```
 
+Cuando se agrega una canción:
 
-Al agregar una canción:
-
-
+```java
 if (song.getPriority() == 1) {
     highPriority.enqueue(song);
 } else {
     normalPriority.enqueue(song);
 }
+```
 
+Al momento de reproducir, primero se revisa la cola de alta prioridad y luego la normal.
 
-Durante la ejecución:
-1. Se procesan primero las canciones de alta prioridad.
-2. Luego se procesan las canciones normales.
+Así las canciones importantes salen antes.
 
-Esto garantiza que las canciones importantes se atiendan primero.
-
+---
 
 ## Conclusión
 
-El proyecto fue desarrollado utilizando Java y gestionado mediante Maven.
+En este proyecto hice una cola genérica manual en Java y luego la usé para simular una cola de canciones con prioridad.
 
-Se implementó:
-- Cola enlazada genérica manual
-- Arquitectura modular con librería reutilizable
-- Manejo de prioridad
-- Separación clara de responsabilidades
-- Empaquetado y gestión mediante Maven
+Se trabajó con estructura enlazada, separación en módulos y uso de Maven para compilar y empaquetar.
