@@ -5,7 +5,9 @@
 1. Abrir una terminal.
 2. Ubicarse en la raíz del proyecto `queue-library` (donde se encuentra el `pom.xml`).
 
+```bash
 mvn clean install
+```
 
 Este comando:
 - Limpia compilaciones anteriores.
@@ -17,27 +19,36 @@ Este comando:
 1. Clic derecho sobre el proyecto `queue-library`.
 2. Seleccionar Run As → Maven Build.
 3. En Goals escribir:
+
+```
 clean install
+```
+
 4. Ejecutar.
 
 
 ## 2️ Cómo instalar en local
 
 Al ejecutar:
+
+```bash
 mvn clean install
+```
 
 La librería:
-- Genera el archivo .jar
-- Se instala en el repositorio local (.m2)
+- Genera el archivo `.jar`
+- Se instala en el repositorio local (`.m2`)
 - Puede ser utilizada como dependencia en otros proyectos Maven
 
-Para usarla en otro proyecto, agregar en el pom.xml:
+Para usarla en otro proyecto, agregar en el `pom.xml`:
 
+```xml
 <dependency>
     <groupId>umg.edu.gt</groupId>
     <artifactId>queue-library</artifactId>
     <version>1.0.0</version>
 </dependency>
+```
 
 
 ## 3️ Cómo compilar el handler
@@ -50,7 +61,9 @@ Este proyecto tiene configurada la dependencia hacia `queue-library` en su `pom.
 
 Ubicarse en la carpeta raíz del `handler`:
 
+```bash
 mvn clean package
+```
 
 Esto genera el archivo ejecutable dentro de la carpeta `target/`.
 
@@ -59,14 +72,19 @@ Esto genera el archivo ejecutable dentro de la carpeta `target/`.
 1. Clic derecho sobre el proyecto `handler`.
 2. Run As → Maven Build
 3. En Goals escribir:
+
+```
 clean package
+```
 
 
 ## 4️ Cómo ejecutar desde consola
 
 Para ejecutar el handler desde consola:
 
+```bash
 java -jar target/handler-1.0.0.jar
+```
 
 Este comando inicia la ejecución del sistema que simula la cola de canciones con prioridad.
 
@@ -78,14 +96,14 @@ El sistema fue dividido en dos módulos Maven independientes:
 ### Proyecto `queue-library`
 
 Contiene la implementación manual de la estructura de datos:
-- QueueLinked<T>
-- Node<T>
+- `QueueLinked<T>`
+- `Node<T>`
 
 Este módulo funciona como una librería reutilizable.
 
 Se utilizan:
-- Referencias privadas head y tail para controlar la cola.
-- Una variable size para llevar el control del número de elementos.
+- Referencias privadas `head` y `tail` para controlar la cola.
+- Una variable `size` para llevar el control del número de elementos.
 - Encapsulamiento para exponer únicamente los métodos necesarios.
 
 ### Proyecto `handler`
@@ -116,16 +134,20 @@ La prioridad se maneja separando las canciones según su nivel.
 
 Se pueden utilizar dos colas:
 
+```java
 private QueueLinked<Song> highPriority;
 private QueueLinked<Song> normalPriority;
+```
 
 Al agregar una canción:
 
+```java
 if (song.getPriority() == 1) {
     highPriority.enqueue(song);
 } else {
     normalPriority.enqueue(song);
 }
+```
 
 Durante la ejecución:
 1. Se procesan primero las canciones de alta prioridad.
