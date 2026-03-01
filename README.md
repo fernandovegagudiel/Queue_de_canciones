@@ -1,10 +1,4 @@
-# Proyecto: Cola Genérica con Prioridad y Simulación
 
-Este proyecto consiste en una cola genérica hecha manualmente en Java y luego una simulación donde se usan canciones con prioridad.
-
-El proyecto está dividido en dos partes: una librería donde está la estructura de datos y otro módulo que la utiliza para hacer la simulación.
-
----
 
 ## 1️ Cómo compilar la librería
 
